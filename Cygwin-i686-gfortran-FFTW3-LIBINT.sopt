@@ -1,0 +1,17 @@
+CC       = cc
+CPP      = 
+
+FC       = gfortran
+LD       = gfortran
+
+AR       = ar -r
+
+CPPFLAGS = 
+DFLAGS   = -D__GFORTRAN -D__FFTW3 -D__LIBINT
+FCFLAGS  = -g -O2 -ffast-math -funroll-loops -ftree-vectorize -march=native -ffree-form $(DFLAGS) 
+LDFLAGS  = $(FCFLAGS) 
+LIBS     = -llapack -lblas -lfftw3 -lderiv -lint
+
+OBJECTS_ARCHITECTURE = machine_gfortran.o
+
+
