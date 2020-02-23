@@ -1,0 +1,18 @@
+CC       = cc
+CPP      = 
+
+FC       = gfortran
+LD       = gfortran
+
+AR       = ar -r
+
+CPPFLAGS = 
+DFLAGS   = -D__GFORTRAN -D__FFTW3 -D__LIBINT -D__LIBXC -D__SPGLIB -D__SIRIUS
+FCFLAGS  = -g -O2 -funroll-loops -ftree-vectorize -march=native -ffree-form $(DFLAGS) -I/c/cygwin/usr/local/include -I/c/cygwin/usr/local/sirius
+LDFLAGS  = $(FCFLAGS) 
+LIBS     = -llapack -lblas -lfftw3 -lderiv -lint2 -L/c/cygwin/usr/local/lib -lsymspg 
+LIBS   +=  -lsirius -lgsl -lhdf5 -lz -ldl -lm -fopenmp /lib/gcc/i686-pc-cygwin/4.9.3/libstdc++.a
+LIBS   +=  /usr/lib/libgsl.dll.a /lib/libmpi.dll.a /lib/libmpi_cxx.dll.a /lib/libxc.a /lib/libxcf03.a /usr/local/lib/libsymspg.dll.a /usr/lib/libhdf5.dll.a /usr/lib/libhdf5_hl.dll.a /usr/lib/libhdf5.dll.a /lib/liblapack.dll.a /lib/libblas.dll.a /lib/libfftw3.dll.a
+
+OBJECTS_ARCHITECTURE = machine_gfortran.o
+
