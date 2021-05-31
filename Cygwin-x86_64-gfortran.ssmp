@@ -1,0 +1,26 @@
+# Put this file on cp2k-8.2/arch and execute the following command on the cp2k-8.2 root directory
+# make ARCH=Cygwin-x86_64-gfortran VERSION=sopt
+# if you wish to clean, make ARCH=Cygwin-x86_64-gfortran VERSION=sopt clean
+
+CC       = cc
+CPP      = 
+
+FC       = gfortran
+LD       = gfortran
+
+AR       = ar -r
+
+CFLAGS = -fopenmp
+CPPFLAGS = 
+DFLAGS   = -D__GFORTRAN -D__FFTW3 -D__LIBINT -D__LIBXC -D__SPGLIB -D__SIRIUS -D__LIBVDWXC
+DFLAGS +=  -D__LIBXSMM  -D__LIBPEXSI -D__QUIP -D__LIBVORI
+FCFLAGS  = -g -O2 -funroll-loops -ftree-vectorize -march=native -ffree-form $(DFLAGS) -Wl,--stack,4194304
+FCFLAGS +=  -I/usr/local/include -I/home/gan_t/libint-v2.6.0-cp2k-lmax-7/include -I/usr/local/sirius/include -I/home/gan_t/pexsi_v1.2.0/fortran -fopenmp
+LDFLAGS  = $(FCFLAGS) 
+LIBS     = -lpexsi  -llapack -lblas -lfftw3 -lfftw3_threads -lint2 -L/usr/local/lib -lxc -lxcf03 -lvori -lquip -lxsmmf -lxsmm -ldl -ldbghelp -lvdwxc
+LIBS   +=  -lgsl -lhdf5 -lz -ldl -lm -fopenmp /lib/gcc/x86_64-pc-cygwin/10/libstdc++.a
+LIBS   +=  /usr/lib/libgsl.dll.a /lib/libmpi.dll.a /usr/local/lib/libxc.a /usr/local/lib/libxcf03.a /usr/local/lib/libxcf90.a  /usr/local/lib/libsymspg.dll.a /usr/lib/libhdf5.dll.a /usr/lib/libhdf5_hl.dll.a /usr/lib/libhdf5.dll.a /lib/liblapack.dll.a /lib/libblas.dll.a /lib/libfftw3.dll.a
+LIBS   +=  /usr/local/lib/libint2.a /usr/local/lib/libsymspg.a /usr/local/lib/libsymspg.dll.a /usr/local/sirius/lib/libsirius.dll.a
+LIBS   += -lsuperlu_dist -lparmetis -lmetis -lmpi -L/usr/local/pexsi/lib
+
+OBJECTS_ARCHITECTURE = machine_gfortran.o
