@@ -1,0 +1,41 @@
+# Put this file on cp2k-2022.1/arch and execute the following command on the cp2k-2022.1 root directory
+# make ARCH=Cygwin-x86_64-gfortran-pexsi VERSION=ssmp
+# if you wish to clean, do either make ARCH=Cygwin-x86_64-gfortran-pexsi VERSION=ssmp clean
+# or make ARCH=Cygwin-x86_64-gfortran-pexsi VERSION=ssmp distclean
+
+CC       = gcc
+FC       = mpif90
+LD       = mpif90
+AR       = ar -r
+
+CFLAGS = -g -O2 -fopenmp  -fopenmp-simd -funroll-loops -ftree-vectorize -march=native -mtune=native 
+
+CPPFLAGS = 
+
+DFLAGS   = -D__GFORTRAN -D__FFTW3 -D__LIBINT -D__LIBXC -D__SPGLIB -D__SIRIUS -D__LIBVDWXC
+DFLAGS +=  -D__LIBXSMM  -D__LIBPEXSI -D__QUIP -D__LIBVORI
+# DFLAGS +=  -D__LIBPEXSI -D__QUIP -D__LIBVORI
+
+FCFLAGS  = -ffree-form -ffree-line-length-none -fno-omit-frame-pointer
+FCFLAGS += -fbacktrace -std=f2008 -Wl,--stack,4194304
+FCFLAGS +=  -I/usr/include -I/usr/local/include -I/home/gan_t/libint-v2.6.0-cp2k-lmax-7/include -I/usr/local/sirius/include 
+FCFLAGS += -I/home/gan_t/pexsi_v1.2.0-openmpi-4.1.2/fortran  $(CFLAGS) $(DFLAGS)
+
+LDFLAGS  = $(FCFLAGS) -static
+
+#LIBS     = -lpexsi  -llapack -lblas -lfftw3 -lfftw3_threads -lint2 -lxc -lxcf03 -lvori -lquip -lxsmmf -lxsmm -ldl -ldbghelp -lvdwxc
+#LIBS   +=  -lgsl -lhdf5 -lz -ldl -lm -lsuperlu_dist -lparmetis -lmetis -lmpi -fopenmp -fopenmp-simd
+LIBS     = -lpexsi -llapack -lblas -lint2 -lxc -lxcf03 -lvori -lquip -ldl -ldbghelp -lvdwxc -lstdc++
+LIBS   +=  -lgsl -lz -ldl -lm -lsuperlu_dist -lparmetis -lmetis -fopenmp -fopenmp-simd
+LIBS   += -L/usr/local/lib  -L/usr/local/pexsi/lib
+#LIBS   += -L/lib/libmpi_usempif08.dll.a -L/lib/libmpi_usempi_ignore_tkr.dll.a
+#LIBS   += -L/lib/libmpi_mpifh.dll.a -L/lib/libmpi.dll.a
+LIBS   +=  /usr/lib/gcc/x86_64-pc-cygwin/11/libstdc++.a  /usr/local/lib/DbgHelp.Lib
+LIBS   +=  /usr/lib/libgsl.dll.a /usr/lib/libmpi.dll.a /usr/local/lib/libxc.a /usr/local/lib/libxcf03.a /usr/local/lib/libxcf90.a
+LIBS   +=  /usr/local/lib/libsymspg.dll.a /usr/lib/libhdf5.dll.a /usr/lib/libhdf5_hl.dll.a /usr/lib/libhdf5.dll.a /usr/lib/liblapack.dll.a
+LIBS   +=  /usr/lib/libblas.dll.a /usr/lib/libfftw3.dll.a /usr/lib/libfftw3_omp.dll.a /usr/local/lib/libopenblas.a
+LIBS   +=  /usr/local/lib/libint2.a /usr/local/lib/libsymspg.a /usr/local/lib/libsymspg.dll.a /usr/local/sirius/lib/libsirius.dll.a
+LIBS  +=  /usr/lib/libfftw3_threads.dll.a /usr/local/lib/libxsmmf.lib /usr/local/lib/libxsmm.lib -llapack -lblas -ldbghelp
+LIBS += /usr/lib/gcc/x86_64-pc-cygwin/11/libgomp.dll.a
+
+OBJECTS_ARCHITECTURE = machine_gfortran.o
