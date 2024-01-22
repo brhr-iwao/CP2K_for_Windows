@@ -1,5 +1,5 @@
 ## CP2K_for_Windows
-CP2K binaries for 32bit Windows
+CP2K binaries for 32/64 bit Windows
 
 ### Description
 [CP2K](https://www.cp2k.org) is a program to perform simulations of solid state, liquid, molecular and biological systems.
