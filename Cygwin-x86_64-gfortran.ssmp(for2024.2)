@@ -1,0 +1,43 @@
+# Put this file on cp2k-2024.2/arch and execute the following command on the cp2k-2024.2 root directory
+# make ARCH=Cygwin-x86_64-gfortran VERSION=ssmp
+# if you wish to clean, make ARCH=Cygwin-x86_64-gfortran VERSION=ssmp clean
+
+CC       = gcc
+CPP      = 
+
+FC       = gfortran
+LD       = gfortran
+
+AR       = ar -r
+
+CFLAGS = -g -O2 -fopenmp  -fopenmp-simd -funroll-loops -ftree-vectorize -march=native -mtune=native
+# For DFTD4, add -I'${DFTD4_DFTD4}/../..' -I'${DFTD4_DFTD4}' -I'${DFTD4_MCTC}' to CFLAGS
+CFLAGS += -I/usr/include  -I/usr/local/include/dftd4  -I/usr/local/include/mctc-lib
+
+CXXFLAGS = $(CFLAGS) --std=c++14
+
+DFLAGS   = -D__GFORTRAN -D__FFTW3 -D__LIBINT -D__LIBXC -D__SPGLIB -D__LIBVDWXC
+DFLAGS += -D__QUIP -D__LIBVORI -D__LIBGRPP -D__DFTD4
+
+FCFLAGS  =  -ffree-form -ffree-line-length-none -fno-omit-frame-pointer -fbacktrace  -std=f2008 $(CFLAGS) $(DFLAGS) -Wl,--stack,4194304
+FCFLAGS +=  -I/usr/local/include -I/home/gan_t/libint-v2.6.0-cp2k-lmax-7/include
+
+LDFLAGS  = $(FCFLAGS)  -static
+
+#LIBS     = -llapack -lblas -lfftw3 -lint2 -L/usr/local/lib -lxc -lxcf03 -lvori -lquip -ldl -lvdwxc 
+LIBS     = -lfftw3 -lint2 -L/usr/local/lib -lxc -lxcf03 -lvori -lquip -ldl -lvdwxc 
+LIBS   += -lFoX_sax -lFoX_common -lFoX_utils -lFoX_fsys -llibgrpp
+LIBS   +=  -lgsl -lz -ldl -lm -ldbghelp /lib/gcc/x86_64-pc-cygwin/12/libstdc++.a
+# LIBS   +=  /usr/lib/libgsl.dll.a /usr/local/lib/libxc.a /usr/local/lib/libxcf03.a /usr/local/lib/libxcf90.a /usr/local/lib/DbgHelp.Lib
+LIBS   +=  /usr/lib/libgsl.dll.a /usr/local/lib/libxc.a /usr/local/lib/libxcf03.a /usr/local/lib/libxcf90.a
+LIBS   +=  /usr/lib/libhdf5.dll.a /usr/lib/libhdf5_hl.dll.a 
+#LIBS  +=  /lib/liblapack.dll.a /lib/libblas.dll.a
+LIBS  +=  /usr/local/lib/libopenblas.dll.a
+LIBS  +=  /usr/lib/libfftw3.dll.a /usr/lib/libfftw3_omp.dll.a /usr/lib/libfftw3_threads.dll.a
+LIBS  +=  /usr/lib/libfftw3f.dll.a /usr/lib/libfftw3f_omp.dll.a /usr/lib/libfftw3f_threads.dll.a
+LIBS  +=  /usr/lib/libfftw3l.dll.a /usr/lib/libfftw3l_omp.dll.a /usr/lib/libfftw3l_threads.dll.a
+LIBS   +=  /usr/local/lib/libint2.a /usr/local/lib/libsymspg.a /usr/local/lib/libsymspg.dll.a
+LIBS += -ldftd4 -lmstore -lmulticharge -lmctc-lib -lopenblas 
+
+
+OBJECTS_ARCHITECTURE = machine_gfortran.o
