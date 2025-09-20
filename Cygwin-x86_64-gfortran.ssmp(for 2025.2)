@@ -1,0 +1,41 @@
+# Put this file on cp2k-2025.2/arch and execute the following command on the cp2k-2025.2 root directory
+# make ARCH=Cygwin-x86_64-gfortran VERSION=ssmp
+# if you wish to clean, make ARCH=Cygwin-x86_64-gfortran VERSION=ssmp clean
+
+CC       = gcc -g
+CXX      = g++ -g
+
+FC       = gfortran -g
+LD       = gfortran
+
+AR       = ar -r
+
+CFLAGS = -O2 -fopenmp  -fopenmp-simd -funroll-loops -ftree-vectorize -march=native -mtune=native
+# For DFTD4, add -I'${DFTD4_DFTD4}/../..' -I'${DFTD4_DFTD4}' -I'${DFTD4_MCTC}' to CFLAGS
+CFLAGS += -I/usr/include  -I/usr/local/include/dftd4  -I/usr/local/include/mctc-lib
+# For Ace
+CFLAGS += -I/usr/local/include/pace  -I/usr/local/include/yaml-cpp
+
+CXXFLAGS = $(CFLAGS) --std=c++14 -D__ACE
+
+DFLAGS   = -D__GFORTRAN -D__FFTW3 -D__LIBINT -D__LIBXC -D__SPGLIB -D__LIBVDWXC
+DFLAGS += -D__QUIP -D__LIBVORI -D__LIBGRPP -D__DFTD4 -D__TREXIO
+DFLAGS += -D__ACE -D__GREENX -D__TBLITE
+
+FCFLAGS  =  -ffree-form -ffree-line-length-none -fno-omit-frame-pointer -fbacktrace  -std=f2008 $(CFLAGS) $(DFLAGS) -Wl,--stack,4194304
+FCFLAGS +=  -I/usr/local/include -I/usr/local/libint-v2.6.0-cp2k-lmax-7/include
+
+LDFLAGS  = $(FCFLAGS)
+
+LIBS  = -L/usr/local/lib -lint2 -lxcf03 -lxc -lvori -lquip -ldl -lvdwxc -ltrexio -lhdf5 -lhdf5_hl
+LIBS +=  -lgsl -lz -ldl -lm
+#LIBS += /usr/local/lib/cygopenblas_haswellp-r0.3.30.a
+LIBS += -lsymspg -ldftd4 -lmstore -lmulticharge -lmctc-lib
+LIBS += -lcnpy -lpace -lyaml-cpp-pace -ltblite -ls-dftd3 -ltoml-f -ltrexio 
+LIBS += -lLibGXMiniMax -lGXCommon -lLibGXAC
+LIBS += -lfftw3 -lfftw3_omp -lfftw3_threads -lfftw3f -lfftw3f_omp -lfftw3f_threads
+LIBS += -lfftw3l -lfftw3f_omp -lfftw3l_threads
+LIBS += -lblas -llapack
+LIBS += -lstdc++
+
+OBJECTS_ARCHITECTURE = machine_gfortran.o
