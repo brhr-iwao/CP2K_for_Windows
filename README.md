@@ -1,6 +1,11 @@
 ## CP2K_for_Windows
 CP2K binaries for 32/64 bit Windows
 
+> [!IMPORTANT] 
+> The Cygwin version of CP2K_for_Windows is discontinued after version 2025.2.
+> 
+>After CP2K 2026.1, Makefile has been discontinued and it is now built with CMake. In this case, MPI_CXX is required, which is a feature not provided by Cygwin's mpi.
+
 ### Description
 [CP2K](https://www.cp2k.org) is a program to perform simulations of solid state, liquid, molecular and biological systems.
 Cygwin-i686-gfortran.sopt is an arch file (definitions for different architectures/compilers) for building a CP2K binary with Cygwin on Windows PC.
